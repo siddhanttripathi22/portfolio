@@ -20,9 +20,6 @@ import {
   SiRedux, 
   SiTailwindcss 
 } from "react-icons/si";
-import { FaGoogle } from "react-icons/fa";
-import { RiNetflixFill } from "react-icons/ri";
-import { FaAmazon } from "react-icons/fa";
 
 const Experience = () => {
   return (

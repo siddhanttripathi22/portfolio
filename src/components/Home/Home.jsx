@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdOutlineEmail, MdPhone, MdClose } from "react-icons/md";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
-import avatarImg from "../../assets/7358602-removebg-preview.jpg";
+import avatarImg from "../../assets/7358602-removebg-preview.webp";
 
 const Home = () => {
   const [showContactModal, setShowContactModal] = useState(false);
@@ -37,8 +37,8 @@ const Home = () => {
   };
 
   return (
-    <div className="text-white flex flex-col md:flex-row w-full justify-between items-start p-4 sm:p-6 md:p-10 lg:p-20 min-h-screen bg-gray-900">
-      <div className="w-full md:w-2/4 md:pt-10 mb-8 md:mb-0">
+    <div className="text-white flex flex-col md:flex-row w-full justify-between items-center p-4 sm:p-6 md:p-10 lg:p-20 min-h-screen bg-gray-900 gap-4 md:gap-6 lg:gap-8">
+    <div className="w-full md:w-1/2 md:pr-6 lg:pr-8">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold flex leading-normal tracking-tighter mb-4">
           Hello, I'm Siddhant
         </h1>
@@ -52,15 +52,16 @@ const Home = () => {
           Contact Me
         </button>
       </div>
-      <div className="w-full md:w-auto flex justify-center md:justify-end">
-    <img 
-  className="w-48 h-60 sm:w-64 sm:h-80 md:w-80 md:h-96 lg:w-96 lg:h-[28rem] object-cover rounded-lg" 
-  src={avatarImg} 
-  alt="Siddhant Tripathi" 
-/>
+      
+      <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+       <img 
+        className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] object-contain rounded-2xl shadow-2xl" 
+
+          src={avatarImg} 
+          alt="Siddhant Tripathi" 
+        />
       </div>
 
-      
       {showContactModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3 sm:p-4 md:p-6">
           <div className="bg-white text-black rounded-lg w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl relative max-h-[90vh] overflow-y-auto">

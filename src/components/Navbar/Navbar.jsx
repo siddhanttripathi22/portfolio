@@ -8,7 +8,7 @@ const Navbar = () => {
   
   const handleResumeDownload = () => {
     
-    const resumeUrl = "https://drive.google.com/file/d/1P0v2Qf_eazUZZvQQiyJsVM8n0PAlhBf5/view?usp=drivesdk "; 
+    const resumeUrl = "https://drive.google.com/file/d/1k5HU6TbELRISNjLgYROaLswH_SASS89S/view?usp=sharing "; 
     
     
     const link = document.createElement('a');
