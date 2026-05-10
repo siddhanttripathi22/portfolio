@@ -7,7 +7,10 @@ import Projects from "./components/Projects/Projects";
 
 function App() {
   return (
-    <div className="bg-[#171d32] h-auto w-full overflow-hidden">
+    <div
+      className="h-auto w-full overflow-hidden"
+      style={{ background: "#0f1117" }}
+    >
       <Navbar />
       <Home />
       <About />
