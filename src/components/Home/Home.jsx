@@ -1,200 +1,360 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineEmail, MdPhone, MdClose } from "react-icons/md";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
+import { RiExternalLinkLine } from "@remixicon/react";
 import avatarImg from "../../assets/7358602-removebg-preview.webp";
+
+// Typing animation hook
+const useTypingEffect = (words, typingSpeed = 80, pauseDuration = 1800) => {
+  const [displayed, setDisplayed] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[wordIndex];
+    let timeout;
+
+    if (!isDeleting && charIndex <= current.length) {
+      timeout = setTimeout(() => {
+        setDisplayed(current.substring(0, charIndex));
+        setCharIndex((c) => c + 1);
+      }, typingSpeed);
+    } else if (!isDeleting && charIndex > current.length) {
+      timeout = setTimeout(() => setIsDeleting(true), pauseDuration);
+    } else if (isDeleting && charIndex > 0) {
+      timeout = setTimeout(() => {
+        setDisplayed(current.substring(0, charIndex - 1));
+        setCharIndex((c) => c - 1);
+      }, typingSpeed / 2);
+    } else {
+      setIsDeleting(false);
+      setWordIndex((w) => (w + 1) % words.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, wordIndex, words, typingSpeed, pauseDuration]);
+
+  return displayed;
+};
 
 const Home = () => {
   const [showContactModal, setShowContactModal] = useState(false);
+  const [copied, setCopied] = useState("");
 
-  const handleContactClick = () => {
-    setShowContactModal(true);
-  };
+  const roles = [
+    "Full Stack Developer",
+    "AI-Integrated Developer",
+    "React + Node.js Engineer",
+    "Open to Work 🚀",
+  ];
 
-  const handleCloseModal = () => {
-    setShowContactModal(false);
-  };
+  const typedRole = useTypingEffect(roles);
 
-  const handleEmailClick = () => {
-    window.open('mailto:siddhanttripathi22@gmail.com', '_blank');
-  };
+  const handleEmailClick = () =>
+    window.open("mailto:siddhanttripathi22@gmail.com", "_blank");
 
-  const handlePhoneClick = () => {
-    window.open('tel:+1234567890', '_blank'); 
-  };
+  const handlePhoneClick = () =>
+    window.open("tel:+919580827580", "_blank");
 
-  const handleLinkedInClick = () => {
-    window.open('https://www.linkedin.com/in/siddhant-tripathi-48b4a61b8/', '_blank');
-  };
+  const handleLinkedInClick = () =>
+    window.open("https://www.linkedin.com/in/siddhant-tripathi-dev", "_blank", "noopener,noreferrer");
 
-  const handleGitHubClick = () => {
-    window.open('https://github.com/siddhanttripathi22', '_blank');
-  };
+  const handleGitHubClick = () =>
+    window.open("https://github.com/siddhanttripathi22", "_blank", "noopener,noreferrer");
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text, label) => {
     navigator.clipboard.writeText(text);
-    alert('Copied to clipboard!');
+    setCopied(label);
+    setTimeout(() => setCopied(""), 2000);
   };
+
+  const contacts = [
+    {
+      icon: <MdOutlineEmail size={20} />,
+      label: "Email",
+      value: "siddhanttripathi22@gmail.com",
+      copyKey: "email",
+      onAction: handleEmailClick,
+      actionLabel: "Send",
+      canCopy: true,
+    },
+    {
+      icon: <MdPhone size={20} />,
+      label: "Phone",
+      value: "+91 9580827580",
+      copyKey: "phone",
+      onAction: handlePhoneClick,
+      actionLabel: "Call",
+      canCopy: true,
+    },
+    {
+      icon: <CiLinkedin size={20} />,
+      label: "LinkedIn",
+      value: "siddhant-tripathi-dev",
+      copyKey: null,
+      onAction: handleLinkedInClick,
+      actionLabel: "Visit",
+      canCopy: false,
+    },
+    {
+      icon: <FaGithub size={18} />,
+      label: "GitHub",
+      value: "siddhanttripathi22",
+      copyKey: null,
+      onAction: handleGitHubClick,
+      actionLabel: "Visit",
+      canCopy: false,
+    },
+  ];
 
   return (
-    <div className="text-white flex flex-col md:flex-row w-full justify-between items-center p-4 sm:p-6 md:p-10 lg:p-20 min-h-screen bg-gray-900 gap-4 md:gap-6 lg:gap-8">
-    <div className="w-full md:w-1/2 md:pr-6 lg:pr-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold flex leading-normal tracking-tighter mb-4">
-          Hello, I'm Siddhant
-        </h1>
-        <p className="text-sm sm:text-base md:text-lg lg:text-2xl tracking-tight mb-6">
-          Bringing ideas to life through modern frontend technologies — I'm Siddhant Tripathi, and I love building on the web & app.
-        </p>
-        <button 
-          onClick={handleContactClick}
-          className="mt-2 sm:mt-4 md:mt-5 text-white py-2 px-4 sm:py-3 sm:px-6 text-sm sm:text-base md:text-lg hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697] w-full sm:w-auto"
-        >
-          Contact Me
-        </button>
-      </div>
-      
-      <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-       <img 
-        className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] object-contain rounded-2xl shadow-2xl" 
+    <>
+      <div className="text-white flex flex-col md:flex-row w-full justify-between items-center px-6 py-16 md:px-20 md:py-0 md:min-h-[90vh] gap-10 md:gap-8">
+        
+        {/* LEFT — Text */}
+        <div className="w-full md:w-1/2 flex flex-col items-start">
 
-          src={avatarImg} 
-          alt="Siddhant Tripathi" 
-        />
-      </div>
+          {/* Open to Work badge */}
+          <div
+            className="flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-medium"
+            style={{
+              background: "rgba(99,102,241,0.1)",
+              border: "1px solid rgba(99,102,241,0.3)",
+              color: "#a5b4fc",
+            }}
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                style={{ background: "#6366f1" }}
+              />
+              <span
+                className="relative inline-flex rounded-full h-2.5 w-2.5"
+                style={{ background: "#6366f1" }}
+              />
+            </span>
+            Open to Work — Actively looking for opportunities
+          </div>
 
-      {showContactModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3 sm:p-4 md:p-6">
-          <div className="bg-white text-black rounded-lg w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl relative max-h-[90vh] overflow-y-auto">
-            {/* Close Button */}
-            <button
-              onClick={handleCloseModal}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-500 hover:text-gray-700 z-10 p-1"
+          {/* Name */}
+          <h1
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-3"
+          >
+            Hello, I'm{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #a5b4fc, #06b6d4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              <MdClose size={20} className="sm:w-6 sm:h-6" />
+              Siddhant
+            </span>
+          </h1>
+
+          {/* Typing role */}
+          <div className="flex items-center gap-2 mb-5 h-8">
+            <span className="text-lg sm:text-xl text-gray-300 font-medium">
+              {typedRole}
+            </span>
+            <span
+              className="inline-block w-0.5 h-6 animate-pulse"
+              style={{ background: "#6366f1" }}
+            />
+          </div>
+
+          {/* Tagline */}
+          <p className="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 max-w-lg">
+            Full Stack Developer with experience at{" "}
+            <span className="text-white font-medium">Indian Oil Corporation</span> — building
+            enterprise apps with React, Node.js & integrating AI with LLMs, RAG & FastAPI.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-4">
+            <button
+              onClick={() => setShowContactModal(true)}
+              className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #4f46e5)",
+                color: "#fff",
+                boxShadow: "0 4px 20px rgba(99,102,241,0.35)",
+              }}
+            >
+              Contact Me
             </button>
 
-            {/* Modal Content */}
-            <div className="p-4 sm:p-6">
-              {/* Modal Header */}
-              <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-[#465697] pr-8">
-                Let's Connect!
-              </h2>
-              <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-                Choose your preferred way to reach out:
-              </p>
+            <button
+              onClick={handleGitHubClick}
+              className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "#fff",
+              }}
+            >
+              <FaGithub size={16} />
+              GitHub
+            </button>
 
-              {/* Contact Options */}
-              <div className="space-y-3 sm:space-y-4">
-                {/* Email */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg hover:bg-gray-50 gap-3 sm:gap-0">
+            <button
+              onClick={handleLinkedInClick}
+              className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "#fff",
+              }}
+            >
+              <CiLinkedin size={18} />
+              LinkedIn
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT — Avatar */}
+        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+          <div
+            className="relative rounded-3xl p-1"
+            style={{
+              background: "linear-gradient(135deg, rgba(99,102,241,0.4), rgba(6,182,212,0.3))",
+            }}
+          >
+            <div
+              className="rounded-3xl overflow-hidden"
+              style={{ background: "#0f1117" }}
+            >
+              <img
+                className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain"
+                src={avatarImg}
+                alt="Siddhant Tripathi"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Modal */}
+      {showContactModal && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 p-4"
+          style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowContactModal(false); }}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl p-6 max-h-[90vh] overflow-y-auto"
+            style={{
+              background: "#13151f",
+              border: "1px solid rgba(99,102,241,0.3)",
+              boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Close */}
+            <button
+              onClick={() => setShowContactModal(false)}
+              className="absolute top-4 right-4 p-1 rounded-lg transition-colors"
+              style={{ color: "#6b7280" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b7280")}
+            >
+              <MdClose size={22} />
+            </button>
+
+            {/* Header */}
+            <div
+              className="w-8 h-1 rounded-full mb-4"
+              style={{ background: "linear-gradient(90deg,#6366f1,#06b6d4)" }}
+            />
+            <h2 className="text-2xl font-bold text-white mb-1 pr-8">Let's Connect!</h2>
+            <p className="text-sm text-gray-400 mb-6">
+              Choose your preferred way to reach out:
+            </p>
+
+            {/* Contact Rows */}
+            <div className="flex flex-col gap-3">
+              {contacts.map((c) => (
+                <div
+                  key={c.label}
+                  className="flex items-center justify-between p-4 rounded-xl transition-colors duration-200"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.borderColor = "rgba(99,102,241,0.35)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")
+                  }
+                >
                   <div className="flex items-center gap-3">
-                    <MdOutlineEmail size={18} className="text-[#465697] sm:w-5 sm:h-5 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-sm sm:text-base">Email</p>
-                      <p className="text-xs sm:text-sm text-gray-600 break-all">
-                        siddhanttripathi22@gmail.com
-                      </p>
+                    <span style={{ color: "#a5b4fc" }}>{c.icon}</span>
+                    <div>
+                      <p className="text-white font-medium text-sm">{c.label}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{c.value}</p>
                     </div>
                   </div>
+
                   <div className="flex gap-2 flex-shrink-0">
                     <button
-                      onClick={handleEmailClick}
-                      className="px-3 py-1 bg-[#465697] text-white rounded text-xs sm:text-sm hover:opacity-85 flex-1 sm:flex-none"
+                      onClick={c.onAction}
+                      className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-opacity hover:opacity-85"
+                      style={{
+                        background: "rgba(99,102,241,0.8)",
+                        color: "#fff",
+                      }}
                     >
-                      Send
+                      <RiExternalLinkLine size={12} />
+                      {c.actionLabel}
                     </button>
-                    <button
-                      onClick={() => copyToClipboard('siddhanttripathi22@gmail.com')}
-                      className="px-3 py-1 border border-[#465697] text-[#465697] rounded text-xs sm:text-sm hover:bg-gray-50 flex-1 sm:flex-none"
-                    >
-                      Copy
-                    </button>
+                    {c.canCopy && (
+                      <button
+                        onClick={() => copyToClipboard(c.value, c.copyKey)}
+                        className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+                        style={{
+                          background: copied === c.copyKey ? "rgba(16,185,129,0.2)" : "rgba(255,255,255,0.06)",
+                          border: `1px solid ${copied === c.copyKey ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.1)"}`,
+                          color: copied === c.copyKey ? "#34d399" : "#9ca3af",
+                        }}
+                      >
+                        {copied === c.copyKey ? "Copied!" : "Copy"}
+                      </button>
+                    )}
                   </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Phone */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg hover:bg-gray-50 gap-3 sm:gap-0">
-                  <div className="flex items-center gap-3">
-                    <MdPhone size={18} className="text-[#465697] sm:w-5 sm:h-5 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-sm sm:text-base">Phone</p>
-                      <p className="text-xs sm:text-sm text-gray-600">+91 XXXXXXXXXX</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={handlePhoneClick}
-                      className="px-3 py-1 bg-[#465697] text-white rounded text-xs sm:text-sm hover:opacity-85 flex-1 sm:flex-none"
-                    >
-                      Call
-                    </button>
-                    <button
-                      onClick={() => copyToClipboard('+91 XXXXXXXXXX')}
-                      className="px-3 py-1 border border-[#465697] text-[#465697] rounded text-xs sm:text-sm hover:bg-gray-50 flex-1 sm:flex-none"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
-
-                {/* LinkedIn */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg hover:bg-gray-50 gap-3 sm:gap-0">
-                  <div className="flex items-center gap-3">
-                    <CiLinkedin size={18} className="text-[#465697] sm:w-5 sm:h-5 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-sm sm:text-base">LinkedIn</p>
-                      <p className="text-xs sm:text-sm text-gray-600">Professional Profile</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleLinkedInClick}
-                    className="px-3 py-1 bg-[#465697] text-white rounded text-xs sm:text-sm hover:opacity-85 w-full sm:w-auto"
-                  >
-                    Visit
-                  </button>
-                </div>
-
-                {/* GitHub */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg hover:bg-gray-50 gap-3 sm:gap-0">
-                  <div className="flex items-center gap-3">
-                    <FaGithub size={18} className="text-[#465697] sm:w-5 sm:h-5 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-sm sm:text-base">GitHub</p>
-                      <p className="text-xs sm:text-sm text-gray-600">View My Projects</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleGitHubClick}
-                    className="px-3 py-1 bg-[#465697] text-white rounded text-xs sm:text-sm hover:opacity-85 w-full sm:w-auto"
-                  >
-                    Visit
-                  </button>
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="mt-4 sm:mt-6 pt-4 border-t">
-                <p className="text-xs sm:text-sm text-gray-600 mb-3">Quick Actions:</p>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <button
-                    onClick={handleEmailClick}
-                    className="flex-1 py-2 sm:py-2 bg-[#465697] text-white rounded hover:opacity-85 font-semibold text-sm sm:text-base"
-                  >
-                    Send Email
-                  </button>
-                  <button
-                    onClick={handlePhoneClick}
-                    className="flex-1 py-2 sm:py-2 border border-[#465697] text-[#465697] rounded hover:bg-gray-50 font-semibold text-sm sm:text-base"
-                  >
-                    Call Now
-                  </button>
-                </div>
-              </div>
+            {/* Quick Actions */}
+            <div
+              className="flex gap-3 mt-6 pt-4"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+            >
+              <button
+                onClick={handleEmailClick}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                style={{ background: "rgba(99,102,241,0.8)" }}
+              >
+                Send Email
+              </button>
+              <button
+                onClick={handleLinkedInClick}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-85"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "#d1d5db",
+                }}
+              >
+                LinkedIn
+              </button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
