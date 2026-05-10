@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const handleResumeClick = () => {
     window.open(
-      "https://drive.google.com/file/d/1M6ErnBafdNNSSFVMl4Wx0RP2VkeeWzhf/view?usp=sharing",
+      "https://docs.google.com/document/d/19btu28h-d4uRFCy8GlbLO76gm2vQcShd/edit?usp=sharing&ouid=116470235316526149747&rtpof=true&sd=true",
       "_blank",
       "noopener,noreferrer"
     );
