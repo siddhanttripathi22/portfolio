@@ -1,134 +1,217 @@
 import React, { useState } from "react";
-import { RiGithubFill, RiCloseLine, RiCodeSSlashLine } from "@remixicon/react";
-//import bannerImg from "../../assets/photo-C8q0KQHG.png";
+import { RiGithubFill, RiCloseLine, RiCodeSSlashLine, RiExternalLinkLine } from "@remixicon/react";
 
-const ProjectCard = ({ 
-  title, 
-  main, 
-  demoUrl, 
-  githubUrl, 
+const ProjectCard = ({
+  title,
+  main,
+  demoUrl,
+  githubUrl,
   techStack = [],
-  techDescription = "This project was built using modern technologies to ensure optimal performance and user experience."
+  techDescription = "This project was built using modern technologies to ensure optimal performance and user experience.",
+  badge = null,
 }) => {
   const [showTechStack, setShowTechStack] = useState(false);
 
-  
   const formatUrl = (url) => {
-    if (!url) return '';
-    
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    
+    if (!url || url === "#") return null;
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
     return `https://${url}`;
   };
 
   const handleSourceCode = () => {
-    if (githubUrl) {
-      const formattedUrl = formatUrl(githubUrl);
-      window.open(formattedUrl, '_blank', 'noopener,noreferrer');
-    }
+    const url = formatUrl(githubUrl);
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleDemo = () => {
-    if (demoUrl) {
-      const formattedUrl = formatUrl(demoUrl);
-      window.open(formattedUrl, '_blank', 'noopener,noreferrer');
-    }
+    const url = formatUrl(demoUrl);
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
   };
+
+  const hasLive = formatUrl(demoUrl);
+  const hasGithub = formatUrl(githubUrl);
 
   return (
     <>
-      <div className="p-3 md:p-6 flex flex-col w-80 bg-[#0c0e19] shadow-xl shadow-slate-900 rounded-2xl relative">
-        
-        
-        <h3 className="px-4 text-xl md:text-2xl font-bold leading-normal">
-          {title}
-        </h3>
-        
-        <p className="px-4 text-sm md:text-md leading-tight py-2">
-          {main}
-        </p>
+      <div
+        className="flex flex-col w-80 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02]"
+        style={{
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "rgba(99,102,241,0.4)";
+          e.currentTarget.style.boxShadow = "0 8px 32px rgba(99,102,241,0.15)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+          e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.3)";
+        }}
+      >
+        {/* Top accent bar */}
+        <div
+          style={{
+            height: "3px",
+            background: "linear-gradient(90deg, #6366f1, #06b6d4)",
+          }}
+        />
 
-        
-        {techStack.length > 0 && (
-          <div className="px-4 py-2">
-            <button 
-              onClick={() => setShowTechStack(true)}
-              className="text-white py-1 px-3 text-sm hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-2xl bg-blue-600 flex items-center gap-2"
+        <div className="p-5 flex flex-col flex-1">
+          {/* Badge (optional) */}
+          {badge && (
+            <span
+              className="text-xs px-2.5 py-1 rounded-full font-medium w-fit mb-3"
+              style={{
+                background: "rgba(6,182,212,0.12)",
+                border: "1px solid rgba(6,182,212,0.3)",
+                color: "#06b6d4",
+              }}
             >
-              <RiCodeSSlashLine size={14} />
-              Used Tech Stack
+              {badge}
+            </span>
+          )}
+
+          {/* Title */}
+          <h3 className="text-lg md:text-xl font-bold text-white leading-snug mb-2">
+            {title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-sm text-gray-400 leading-relaxed flex-1 mb-4">
+            {main}
+          </p>
+
+          {/* Tech Stack button */}
+          {techStack.length > 0 && (
+            <button
+              onClick={() => setShowTechStack(true)}
+              className="flex items-center gap-2 text-xs font-semibold w-fit mb-4 px-3 py-1.5 rounded-lg transition-all duration-200 hover:scale-105"
+              style={{
+                background: "rgba(99,102,241,0.15)",
+                border: "1px solid rgba(99,102,241,0.3)",
+                color: "#a5b4fc",
+              }}
+            >
+              <RiCodeSSlashLine size={13} />
+              Tech Stack
+            </button>
+          )}
+
+          {/* Action buttons */}
+          <div className="flex gap-3 mt-auto">
+            <button
+              onClick={handleDemo}
+              disabled={!hasLive}
+              className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{
+                background: hasLive ? "rgba(99,102,241,0.8)" : "rgba(255,255,255,0.06)",
+                color: "#fff",
+              }}
+            >
+              <RiExternalLinkLine size={14} />
+              Live
+            </button>
+
+            <button
+              onClick={handleSourceCode}
+              disabled={!hasGithub}
+              className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#fff",
+              }}
+            >
+              <RiGithubFill size={14} />
+              Source Code
             </button>
           </div>
-        )}
-        
-        <div className="mt-2 p-2 md:p-4 flex gap-2 md:gap-4">
-          <button 
-            onClick={handleDemo}
-            className="text-white py-2 px-3 text-sm md:text-lg md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697]"
-          >
-            Live
-          </button>
-          
-          <button 
-            onClick={handleSourceCode}
-            className="text-white py-2 px-3 text-sm md:text-lg md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697] flex items-center gap-2"
-          >
-            <RiGithubFill size={16} />
-            Source Code
-          </button>
         </div>
       </div>
 
       {/* Tech Stack Modal */}
       {showTechStack && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#0c0e19] rounded-2xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto relative border border-gray-700">
-            <button 
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 p-4"
+          style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowTechStack(false); }}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl p-6 max-h-[85vh] overflow-y-auto"
+            style={{
+              background: "#0c0e19",
+              border: "1px solid rgba(99,102,241,0.3)",
+              boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Close button */}
+            <button
               onClick={() => setShowTechStack(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 p-1 rounded-lg transition-colors"
+              style={{ color: "#6b7280" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b7280")}
             >
-              <RiCloseLine size={24} />
+              <RiCloseLine size={22} />
             </button>
-            
-            <h3 className="text-2xl font-bold text-white mb-4 pr-8">
-              {title} - Tech Stack
-            </h3>
-            
-            <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-              {techDescription}
+
+            {/* Modal header */}
+            <div
+              className="w-8 h-1 rounded-full mb-4"
+              style={{ background: "linear-gradient(90deg,#6366f1,#06b6d4)" }}
+            />
+            <h3 className="text-xl font-bold text-white mb-1 pr-8">{title}</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-6">{techDescription}</p>
+
+            {/* Tech grid */}
+            <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "#6366f1" }}>
+              Technologies Used
             </p>
-            
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white mb-3">Technologies Used:</h4>
-              <div className="grid grid-cols-2 gap-3">
-                {techStack.map((tech, index) => (
-                  <div 
-                    key={index}
-                    className="bg-[#1a1d2e] p-3 rounded-lg border border-gray-700 hover:border-[#465697] transition-colors"
-                  >
-                    <span className="text-white font-medium text-sm">{tech}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="mt-6 pt-4 border-t border-gray-700 flex gap-3">
-              {githubUrl && (
-                <button 
-                  onClick={handleSourceCode}
-                  className="flex-1 bg-[#465697] text-white py-2 px-4 rounded-lg hover:opacity-85 transition-opacity flex items-center justify-center gap-2"
+            <div className="grid grid-cols-2 gap-2 mb-6">
+              {techStack.map((tech, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 p-3 rounded-xl text-sm font-medium text-white"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
                 >
-                  <RiGithubFill size={16} />
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ background: "linear-gradient(135deg,#6366f1,#06b6d4)" }}
+                  />
+                  {tech}
+                </div>
+              ))}
+            </div>
+
+            {/* Modal footer buttons */}
+            <div
+              className="flex gap-3 pt-4"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+            >
+              {hasGithub && (
+                <button
+                  onClick={() => { handleSourceCode(); setShowTechStack(false); }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                  style={{ background: "rgba(99,102,241,0.8)" }}
+                >
+                  <RiGithubFill size={15} />
                   View Code
                 </button>
               )}
-              {demoUrl && (
-                <button 
-                  onClick={handleDemo}
-                  className="flex-1 bg-[#2d4a22] text-white py-2 px-4 rounded-lg hover:opacity-85 transition-opacity"
+              {hasLive && (
+                <button
+                  onClick={() => { handleDemo(); setShowTechStack(false); }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                  style={{
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}
                 >
+                  <RiExternalLinkLine size={15} />
                   Live Demo
                 </button>
               )}
