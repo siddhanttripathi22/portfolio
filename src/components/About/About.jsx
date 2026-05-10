@@ -114,7 +114,7 @@ const About = () => {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
             </span>
             <p className="text-sm text-green-400 font-medium">
-              Currently working as Software Developer @ Indian Oil Corporation Ltd
+              Currently Looking for a Change
             </p>
           </div>
         </div>
