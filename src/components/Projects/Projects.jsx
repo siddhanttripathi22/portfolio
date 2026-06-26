@@ -5,7 +5,9 @@ const Projects = () => {
   return (
     <div id="Projects" className="p-10 md:p-24 text-white">
       <div className="flex items-end gap-4 mb-2">
-        <h1 className="text-3xl md:text-5xl text-white font-bold tracking-tight">Projects</h1>
+        <h1 className="text-3xl md:text-5xl text-white font-bold tracking-tight">
+          Projects
+        </h1>
         <div
           style={{
             height: "3px",
@@ -15,75 +17,100 @@ const Projects = () => {
           className="w-16 mb-3"
         />
       </div>
+
       <p className="text-gray-400 text-sm mb-10 uppercase tracking-widest font-medium">
         Featured Work
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center max-w-7xl mx-auto">
 
-        {/* ✅ Project 1 — AI Dashboard (Resume) */}
+        {/* Project 1 */}
         <ProjectCard
           title="Protocol Upgrade Monitor"
           main="End-to-end AI dashboard with real-time blockchain analytics, time-series forecasting & live API integrations"
           demoUrl="#"
           githubUrl="https://github.com/siddhanttripathi22/protocol-upgrade-monitor"
           techStack={[
-            "Python", "Streamlit", "FastAPI", "Prophet",
-            "Etherscan API", "CoinGecko API", "Twitter v2 API", "Snapshot.org API"
+            "Python",
+            "Streamlit",
+            "FastAPI",
+            "Prophet",
+            "Etherscan API",
+            "CoinGecko API",
+            "Twitter API",
+            "Snapshot API"
           ]}
-          techDescription="Full-stack AI analytics dashboard integrating 4 live APIs (Etherscan, CoinGecko, Twitter v2, Snapshot.org). Applied Facebook Prophet for 7-day predictive liquidity alerts. Modular architecture with caching reduced cold-start data load by ~60%."
+          techDescription="Full-stack AI analytics dashboard integrating multiple APIs with predictive forecasting."
         />
 
-        {/* ✅ Project 2 — Local ChatGPT (Resume) */}
+        {/* Project 2 */}
         <ProjectCard
           title="Local ChatGPT App"
-          main="Full-stack LLM chat app with streaming responses, session history & on-device inference — zero API cost"
+          main="Full-stack LLM chat app with streaming responses & local inference"
           demoUrl="#"
           githubUrl="https://github.com/siddhanttripathi22/ChatGPT-style-Chat-App-"
           techStack={[
-            "React.js", "Node.js", "Ollama", "PostgreSQL",
-            "LLM Integration", "Streaming API", "REST APIs"
+            "React.js",
+            "Node.js",
+            "Ollama",
+            "PostgreSQL",
+            "LLM Integration"
           ]}
-          techDescription="Full-stack AI chat application with React.js frontend, Node.js API layer, Ollama for on-device LLM inference, and PostgreSQL for persistent multi-session chat history. Streaming responses with session isolation — zero external API cost and zero data privacy exposure."
+          techDescription="Chat app with local LLM inference and persistent chat history."
         />
 
-        {/* ✅ Project 3 — Inventory (Resume, Indian Oil) */}
+        {/* Project 3 */}
         <ProjectCard
           title="Inventory Management System"
-          main="Enterprise-grade inventory & task tracking system for field supervisors — built at Indian Oil Corporation Ltd"
+          main="Enterprise-grade inventory system built at Indian Oil"
           demoUrl="#"
           githubUrl="#"
           techStack={[
-            "React.js", "Node.js", "Redux", "REST APIs",
-            "MySQL", "Geolocation API", "JWT Auth"
+            "React.js",
+            "Node.js",
+            "Redux",
+            "MySQL",
+            "JWT Auth"
           ]}
-          techDescription="Delivered full-stack inventory tracking modules used by 50+ field supervisors across depot locations. Multi-layer data validation achieving >99% form submission reliability in UAT. Includes real-time geolocation tracking and vendor validation via secure API integrations."
+          techDescription="Used by field supervisors for inventory tracking and validation."
         />
 
-        {/* ✅ Project 4 — Pokédex (Kept) */}
+        {/* Project 4 */}
         <ProjectCard
           title="Pokédex App"
-          main="Comprehensive Pokémon database with search, filter, and detailed stats for 800+ Pokémon"
+          main="Pokémon database with search & filtering"
           demoUrl="https://pokedex-web-gamma.vercel.app"
           githubUrl="https://github.com/siddhanttripathi22/pokedex_web"
-          techStack={[
-            "React.js", "JavaScript", "CSS3",
-            "PokéAPI", "Responsive Design", "Local Storage"
-          ]}
-          techDescription="A comprehensive React-based Pokédex pulling live data from the PokéAPI. Features include search, type-based filtering, and detailed stat pages for 800+ Pokémon — fully responsive across mobile and desktop."
+          techStack={["React.js", "PokéAPI", "CSS3"]}
+          techDescription="Interactive Pokédex with 800+ Pokémon data."
         />
 
-        {/* ✅ Project 5 — Billing App (Kept) */}
+        {/* Project 5 */}
         <ProjectCard
           title="Billing App"
-          main="Collaborative billing app with real-time updates, offline PWA support, and team management features"
+          main="Collaborative billing app with PWA support"
           demoUrl="https://billing-app-ebon.vercel.app/"
           githubUrl="https://github.com/siddhanttripathi22/Billing-App"
+          techStack={["React.js", "Redux", "PWA", "Tailwind"]}
+          techDescription="Offline-enabled billing system with real-time collaboration."
+        />
+
+        {/* ✅ Project 6 — AI Job Copilot */}
+        <ProjectCard
+          title="AI Job Copilot"
+          main="AI-powered job search assistant that analyzes resumes and matches jobs"
+          demoUrl="https://ai-job-copilot.vercel.app"
+          githubUrl="https://github.com/siddhanttripathi22/AI-Job-Copilot"
           techStack={[
-            "React.js", "Tailwind CSS", "Redux",
-            "PWA", "Local Storage", "Responsive Design"
+            "React.js",
+            "Node.js",
+            "OpenAI API",
+            "LangChain",
+            "Express.js",
+            "MongoDB",
+            "JWT Auth"
           ]}
-          techDescription="A modern billing application with real-time collaboration features and offline support via PWA. Includes invoice generation, team management, and an intuitive UI built with React and Redux."
+          techDescription="AI system that parses resumes, extracts skills using NLP, matches jobs, and generates cover letters + interview prep using LLMs."
         />
 
       </div>
