@@ -102,13 +102,19 @@ const Projects = () => {
           demoUrl="https://ai-job-copilot-eight.vercel.app/"
           githubUrl="https://github.com/siddhanttripathi22/AI-Job-Copilot"
           techStack={[
-            "React.js",
-            "Node.js",
-            "OpenAI API",
+            "Next Js",
+            "FastAPI",
+            "Groq API",
             "LangChain",
-            "Express.js",
-            "MongoDB",
-            "JWT Auth"
+            "Python",
+            "AWS",
+            "JWT Auth",
+            "RAG",
+            "Tailwind Css",
+            "Git",
+            "Sentence-Transformer",
+            "Vs Studio"
+            
           ]}
           techDescription="AI system that parses resumes, extracts skills using NLP, matches jobs, and generates cover letters + interview prep using LLMs."
         />
