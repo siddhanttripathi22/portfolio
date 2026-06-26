@@ -99,7 +99,7 @@ const Projects = () => {
         <ProjectCard
           title="AI Job Copilot"
           main="AI-powered job search assistant that analyzes resumes and matches jobs"
-          demoUrl="https://ai-job-copilot.vercel.app"
+          demoUrl="https://ai-job-copilot-eight.vercel.app/"
           githubUrl="https://github.com/siddhanttripathi22/AI-Job-Copilot"
           techStack={[
             "React.js",
